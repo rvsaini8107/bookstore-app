@@ -80,13 +80,26 @@ function BookList({ books }) {
     );
   }
   function BookImage(book, index) {
+    let imgg =""
+    try{
+        imgg = book.book.volumeInfo.imageLinks.thumbnail; 
+    }
+    catch(error){
+        console.log(error,"errrrro")
+        
+    }
+    
+    
     return (
       <div className="only-book-image-div" onClick={()=>setShowInfo({book})} key={index}>
-        <img
-          src={book.book.volumeInfo.imageLinks.thumbnail}
-          alt="image"
-          className="only-book-image"
-        />
+            
+            <img
+            src={imgg}
+            alt="image"
+            className="only-book-image"
+            />
+            
+        
       </div>
     );
   }

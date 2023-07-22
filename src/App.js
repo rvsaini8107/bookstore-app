@@ -8,22 +8,26 @@ import axios from 'axios';
 function App() {
 
   const [books,setBooks] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("java");
-  // useEffect(()=>{
-    const handleSearch = async (query) => {
+  const [searchQuery, setSearchQuery] = useState("");
+   useEffect(()=>{
+    const handleSearch = async (queryyy) => {
+       
+       
       try {
         const response = await axios.get(
-          `https://www.googleapis.com/books/v1/volumes?q=${query}`
+          `https://www.googleapis.com/books/v1/volumes?q=${queryyy}`
         );
   
         const searchResult = response.data.items;
+        
         setBooks(searchResult);
       } catch (error) {
         console.error('Error fetching search results:', error);
       }
     };
-  //   handleSearch({searchQuery})
-  // },[searchQuery])
+    console.log(searchQuery,"showww")
+    handleSearch({searchQuery})
+  },[searchQuery])
   
 
   useEffect(()=>{
@@ -46,8 +50,8 @@ function App() {
   return (
     <div className="App">
        
-      <Navbar onSearch={handleSearch}/>
-      {books.length>1&&
+      <Navbar onSearch={setSearchQuery}/>
+      {books.length>0&&
         <BookList books={books}/>
       }
     </div>
