@@ -11,19 +11,25 @@ import profile from "../images/profile.png";
 import searchImageicon from "../images/search.png";
 
 function Navbar({ onSearch }) {
-    const [query,setQuery] =  useState("")
+  const [query, setQuery] = useState("");
 
-    const handleSearch = (e) => {
-      e.preventDefault();
-      onSearch({query});
-    };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    
+    query!="" && onSearch({ query });
+  };
+
+  console.log("Rendering Navbar"); // Added console.log statement
+
   return (
     <nav className="navbar">
       <div className="log-div">
         <img src={log} alt="log" className="log image-nav" />
         <img src={KeazoNBOOKS} alt="log-name" className="log-name image-nav" />
       </div>
+
       {/* <SearchBar onSearch2 ={onSearch}/> */}
+
       <form className="searchbar-div" onSubmit={handleSearch}>
         <div className="search-bar">
           <img src={searchImageicon} alt="search" className="search-icon-img" />
@@ -38,6 +44,7 @@ function Navbar({ onSearch }) {
           <button className="search-btn">Search</button>
         </div>
       </form>
+      
       <div className="icons-div">
         <div className="icon-div icon-div-1">
           <img src={heart} alt="book" className="book image-nav" />
@@ -55,5 +62,5 @@ function Navbar({ onSearch }) {
     </nav>
   );
 }
-
+  
 export default Navbar;

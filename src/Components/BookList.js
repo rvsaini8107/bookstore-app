@@ -1,30 +1,44 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 
-function BookList({ books }) {
+function BookList({ books  }) {
     const [showInfo,setShowInfo] = useState(null);
+    
+
     
   function Book(book, index) {
     console.log(book);
+    let imgg ="",title="",description="",previewLink="";
+
+    try{
+        imgg = book.book.volumeInfo.imageLinks.thumbnail; 
+        title = book.book.volumeInfo.title;
+        description = book.book.volumeInfo.description;
+        previewLink = book.book.volumeInfo.previewLink;
+    }
+    catch(error){
+        console.log(error,"errrrro")
+        
+    }
     
     return (
         
       <div className="Book-item" onClick={()=>setShowInfo({book})}  key={index}>
         <div className="book-image-div">
           <img
-            src={book.book.volumeInfo.imageLinks.thumbnail}
+            src={imgg}
             alt=""
             className="book-image"
           />
         </div>
         <div className={`book-info-div book_item_${book.index}`}>
           <div className="book-title">
-            <p className="prag">{book.book.volumeInfo.title}</p>
+            <p className="prag">{title}</p>
           </div>
           <div className="book-description">
-            <p>{book.book.volumeInfo.description}</p>
+            <p>{description}</p>
           </div>
           <div className="book-now-read">
-          <a href={book.book.volumeInfo.previewLink} target="_blank" rel="noopener noreferrer">
+          <a href={previewLink} target="_blank" rel="noopener noreferrer">
            <button className="now-read-btn">Now Read!</button>
            </a>
           </div>
@@ -32,43 +46,66 @@ function BookList({ books }) {
       </div>
     );
   }
+  
   function OnClickShowBook(book, index) {
+    console.log(book,"onclick")
     const bok = book.book.book.book;
-    console.log(book.book.book.book,"bb");
+    let thumbnail = "",title="",publishedDate="",authors="";
+    let description="",averageRating="",ratingsCount="";
+    let publisher="",language="",previewLink="",infoLink="";
+    try{
+        bok.index = index;
+        thumbnail = bok.volumeInfo.imageLinks.thumbnail;
+        title = bok.volumeInfo.title;
+        publishedDate = bok.volumeInfo.publishedDate;
+        authors = bok.volumeInfo.authors[0];
+        description = bok.volumeInfo.description;
+        averageRating = bok.volumeInfo.averageRating;
+        ratingsCount = bok.volumeInfo.ratingsCount;
+        publisher = bok.volumeInfo.publisher;
+        language = bok.volumeInfo.language;
+        previewLink = bok.volumeInfo.previewLink;
+        infoLink = bok.volumeInfo.infoLink;
+    }
+    catch(error){
+        console.log(error,"errrrro")
+        
+    }
+    
     
     return (
         
       <div className="select-Book-item"   key={index}>
         <div className="select-book-image-div">
-          <img
-            src={bok.volumeInfo.imageLinks.thumbnail}
+         { thumbnail && <img
+            src={thumbnail}
             alt=""
             className="select-book-image"
-          />
+          />}
         </div>
         <div className={`select-book-info-div book_item_${bok.index}`}>
           <div className="select-book-title">
-            <p className="select-prag">{bok.volumeInfo.title}</p>
-            <p className="publish-data">Published On: {bok.volumeInfo.publishedDate}</p>
+            {title && <p className="select-prag">{title}</p>}
+            {publishedDate && <p className="publish-data">Published On: {publishedDate}</p>}
           </div>
           <div className="select-book-auth">
-            <p className="margin0">{bok.volumeInfo.authors[0]}</p>
+            {authors && <p className="margin0">{authors}</p>}
           </div>
           <div className="select-book-description">
-            <p className="margin0">{bok.volumeInfo.description}</p>
+            {description && <p className="margin0">{description}</p>}
           </div>
 
             <div className="info-box">
-                <div className="box-1">Avg Rating : {bok.volumeInfo.averageRating}</div>
-                <div className="box-2">Rating Count : {bok.volumeInfo.ratingsCount}</div>
-                <div className="box-3">Publisher : {bok.volumeInfo.publisher}</div>
-                <div className="box-4">Language : {bok.volumeInfo.language}</div>
-                <a href={bok.volumeInfo.previewLink} target="_blank" rel="noopener noreferrer">
+                {averageRating && <div className="box-1">Avg Rating : {averageRating}</div>}
+                {ratingsCount && <div className="box-2">Rating Count : {ratingsCount}</div>}
+                {publisher && <div className="box-3">Publisher : {publisher}</div>}
+                {language && <div className="box-4">Language : {language}</div>}
+                {previewLink && <a href={previewLink} target="_blank" rel="noopener noreferrer">
                     <button className="select-now-read-btn">Now Read!</button>
-                </a>
-                <a href={bok.volumeInfo.infoLink} target="_blank" rel="noopener noreferrer">
+                </a>}
+                {infoLink && <a href={infoLink} target="_blank" rel="noopener noreferrer">
                     <button className="select-now-read-btn">More Info!</button>
-                </a>
+                </a>}
             </div>
           {/* <div className="select-book-now-read">
             <button className="select-now-read-btn">Now Read!</button>
@@ -106,7 +143,7 @@ function BookList({ books }) {
   // console.log(books,"helllbooks")
   return (
     <>
-      {showInfo!=null? 
+      {showInfo!=null ? 
       <div className="book-list">
         <OnClickShowBook book={showInfo} index="1"/>
       </div>
