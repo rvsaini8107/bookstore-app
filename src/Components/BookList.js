@@ -125,7 +125,7 @@ function BookList({ books  }) {
         console.log(error,"errrrro")
         
     }
-    
+     
     
     return (
       <div className="only-book-image-div" onClick={()=>setShowInfo({book})} key={index}>
